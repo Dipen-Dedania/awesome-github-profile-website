@@ -138,7 +138,7 @@ export default function App() {
           </div>
           <a
             className="github-link"
-            href="https://github.com/Dipen-Dedania/awesome-github-profile-websites"
+            href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
             target="_blank"
             rel="noopener noreferrer"
             id="github-repo-link"
@@ -197,7 +197,7 @@ export default function App() {
         </a>{' '}
         · Data sourced from README.md ·{' '}
         <a
-          href="https://github.com/Dipen-Dedania/awesome-github-profile-websites"
+          href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
           target="_blank"
           rel="noopener noreferrer"
         >
