@@ -1,0 +1,24 @@
+{
+  "name": "awesome-github-profile-websites",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "extract": "node scripts/extract-profiles-from-readme.js",
+    "prebuild": "node scripts/extract-profiles-from-readme.js",
+    "dev": "node scripts/extract-profiles-from-readme.js && vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && npx -y gh-pages -d dist"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^6.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

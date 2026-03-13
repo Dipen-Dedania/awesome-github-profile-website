@@ -1,4 +1,4 @@
-# awesome-github-profile-pages
+# awesome-github-profile-websites
 
 Hey there,
 If you have come across to this repo so you definitely wants to create an awesome profile page and you don't have enough time to create simple website or not interested in doing HTML stuff then you are probably at the right place.   
@@ -13,6 +13,7 @@ However only few candidates have a Github page on their resumes and most of them
 
 Here are the list of sample repositories which I came accrossed and found interesting. Order is based on a way I found a repo. Make sure to fork and give it a star to appreciate their efforts. 
 
+<!-- PROFILES-START -->
 ---
 Repo - https://github.com/mmistakes/minimal-mistakes
 
@@ -98,9 +99,56 @@ Repo - https://github.com/mattwilliams85/mattwilliams85.github.io
 
 Link - http://mattwilliams85.github.io
 ---
-
 Repo - https://github.com/ahmedbesbes/gatsby-blog
 
 Link - https://ahmedbesbes.com/
 ---
+Repo - https://github.com/academicpages/academicpages.github.io
 
+Link - https://academicpages.github.io
+---
+Repo - https://github.com/alshedivat/al-folio
+
+Link - https://alshedivat.github.io/al-folio/
+---
+Repo - https://github.com/RyanFitzgerald/devportfolio
+
+Link - https://ryanfitzgerald.github.io/devportfolio/
+---
+Repo - https://github.com/vivek9patel/vivek9patel.github.io
+
+Link - https://vivek9patel.github.io/
+---
+Repo - https://github.com/varadbhogayata/varadbhogayata.github.io
+
+Link - https://varadbhogayata.github.io
+---
+Repo - https://github.com/mldangelo/personal-site
+
+Link - https://mldangelo.com
+---
+Repo - https://github.com/saadpasta/developerFolio
+
+Link - https://developerfolio.js.org
+---
+Repo - https://github.com/ashutosh1919/masterPortfolio
+
+Link - http://ashutosh1919.github.io/
+---
+Repo - https://github.com/said7388/developer-portfolio
+
+Link - https://abusaid.netlify.app
+---
+Repo - https://github.com/codewithsadee/vcard-personal-portfolio
+
+Link - https://codewithsadee.github.io/vcard-personal-portfolio/
+---
+Repo - https://github.com/albinotonnina/albinotonnina.com
+
+Link - https://albinotonnina.com
+---
+Repo - https://github.com/arifszn/gitprofile
+
+Link - https://arifszn.github.io/gitprofile/
+---
+<!-- PROFILES-END -->
