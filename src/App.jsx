@@ -195,7 +195,7 @@ export default function App() {
         >
           Dipen Dedania
         </a>{' '}
-        · Data sourced from README.md ·{' '}
+        · Data sourced from data.md ·{' '}
         <a
           href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
           target="_blank"

@@ -3,7 +3,7 @@ Goal: Build a small static gallery site for an “Awesome GitHub Websites” lis
 ## Tech + constraints
 
 - Stack: React + **JavaScript** (no TypeScript) + Vite, Tailwind.
-- Data source: an existing **markdown section in `README.md`**, not JSON.
+- Data source: an existing **markdown section in `data.md`**, not JSON.
   - The markdown follows a pattern like:
 
     ```md
@@ -17,7 +17,7 @@ Goal: Build a small static gallery site for an “Awesome GitHub Websites” lis
 
 ## Data ingestion from markdown
 
-Instead of a JSON file, assume the source data lives in `README.md` in a clearly delimited block, e.g.:
+Instead of a JSON file, assume the source data lives in `data.md` in a clearly delimited block, e.g.:
 
 ```md
 <!-- PROFILES-START -->
@@ -37,7 +37,7 @@ Link - http://aliu139.github.io/
 
 Implement a **build-time script** in Node (JavaScript) that:
 
-1. Reads `README.md`.
+1. Reads `data.md`.
 2. Extracts the text between `<!-- PROFILES-START -->` and `<!-- PROFILES-END -->`.
 3. Parses it into an array of profile objects.
 
@@ -82,7 +82,7 @@ Parsing rules:
    ];
    ```
 
-This keeps `README.md` as the single source of truth; the UI imports `profiles` from that module.
+This keeps `data.md` as the single source of truth; the UI imports `profiles` from that module.
 
 ## GitHub API usage (JS)
 
@@ -209,7 +209,7 @@ Gallery:
 ## Scripts / structure
 
 - `scripts/extract-profiles-from-readme.js`:
-  - Node script to parse `README.md` and generate `src/profiles.js`.
+  - Node script to parse `data.md` and generate `src/profiles.js`.
   - Run before build (e.g., `prebuild` script in `package.json`).
 
 - `src/profiles.js`:
