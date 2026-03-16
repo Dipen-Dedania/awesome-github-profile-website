@@ -4,6 +4,9 @@ import { fetchRepoStats, fetchUserStats } from './githubClient.js';
 import StatsBar from './components/StatsBar.jsx';
 import Filters from './components/Filters.jsx';
 import ProfileCard from './components/ProfileCard.jsx';
+import LandingSection from './components/LandingSection.jsx';
+
+import logo from './assets/logo.png';
 
 function extractOwnerRepo(repoUrl) {
   try {
@@ -22,6 +25,7 @@ export default function App() {
   const [sort, setSort] = useState('name-asc');
   const [repoStatsMap, setRepoStatsMap] = useState({});
   const [userStatsMap, setUserStatsMap] = useState({});
+  const [currentView, setCurrentView] = useState('landing');
   const debounceTimer = useRef(null);
 
   // Debounce search
@@ -129,60 +133,83 @@ export default function App() {
       {/* Header */}
       <header className="site-header">
         <div className="header-inner">
-          <div className="header-icon">🚀</div>
-          <div>
-            <h1 className="header-title">Awesome GitHub Websites</h1>
-            <p className="header-subtitle">
-              Curated gallery of GitHub-hosted profile sites &amp; templates
-            </p>
+          <div className="header-brand" onClick={() => setCurrentView('landing')}>
+            <div className="header-icon">
+              <img src={logo} alt="Logo" />
+            </div>
+            <div>
+              <h1 className="header-title">Awesome GitHub Websites</h1>
+              <p className="header-subtitle">
+                Curated gallery of GitHub-hosted profile sites &amp; templates
+              </p>
+            </div>
           </div>
-          <a
-            className="github-link"
-            href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
-            target="_blank"
-            rel="noopener noreferrer"
-            id="github-repo-link"
-          >
-            ⭐ Star on GitHub
-          </a>
+          <nav className="nav-links">
+            <a 
+              className={`nav-link ${currentView === 'templates' ? 'active' : ''}`}
+              onClick={() => setCurrentView('templates')}
+            >
+              Templates Gallery
+            </a>
+            <a
+              className="github-link"
+              href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="github-repo-link"
+            >
+              ⭐ Star on GitHub
+            </a>
+          </nav>
         </div>
       </header>
 
       <main className="container">
-        {/* Stats */}
-        <StatsBar profiles={profiles} repoStatsMap={repoStatsMap} />
+        {currentView === 'landing' ? (
+          <LandingSection 
+            profiles={profiles} 
+            repoStatsMap={repoStatsMap} 
+            userStatsMap={userStatsMap} 
+            onBrowseTemplates={() => setCurrentView('templates')}
+          />
+        ) : (
+          <>
+            {/* Stats */}
+            <StatsBar profiles={profiles} repoStatsMap={repoStatsMap} />
 
-        {/* Filters */}
-        <Filters
-          search={search}
-          onSearchChange={handleSearchChange}
-          typeFilter={typeFilter}
-          onTypeChange={setTypeFilter}
-          sort={sort}
-          onSortChange={setSort}
-        />
+            {/* Filters */}
+            <Filters
+              search={search}
+              onSearchChange={handleSearchChange}
+              typeFilter={typeFilter}
+              onTypeChange={setTypeFilter}
+              sort={sort}
+              onSortChange={setSort}
+            />
 
-        {/* Gallery */}
-        <div className="gallery-grid" id="gallery">
-          {filteredProfiles.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-state-icon">🔎</div>
-              <div className="empty-state-title">No profiles found</div>
-              <div className="empty-state-text">
-                Try adjusting your search or filters.
-              </div>
+            {/* Gallery */}
+            <div className="gallery-grid" id="gallery">
+              {filteredProfiles.length === 0 ? (
+                <div className="empty-state">
+                  <div className="empty-state-icon">🔎</div>
+                  <div className="empty-state-title">No profiles found</div>
+                  <div className="empty-state-text">
+                    Try adjusting your search or filters.
+                  </div>
+                </div>
+              ) : (
+                filteredProfiles.map((profile) => (
+                  <ProfileCard
+                    key={profile.id}
+                    profile={profile}
+                    repoStats={repoStatsMap[profile.id]}
+                    userStats={userStatsMap[profile.author]}
+                  />
+                ))
+              )}
             </div>
-          ) : (
-            filteredProfiles.map((profile) => (
-              <ProfileCard
-                key={profile.id}
-                profile={profile}
-                repoStats={repoStatsMap[profile.id]}
-                userStats={userStatsMap[profile.author]}
-              />
-            ))
-          )}
-        </div>
+          </>
+        )}
       </main>
 
       {/* Footer */}

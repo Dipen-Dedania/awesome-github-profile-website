@@ -91,13 +91,14 @@ body::before {
   display: flex;
   align-items: center;
   gap: 1rem;
+  justify-content: space-between;
 }
 
 .header-icon {
   width: 40px;
-  height: 40px;
+  /* height: 40px; */
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--color-accent), var(--color-trending));
+  /* background: linear-gradient(135deg, var(--color-accent), var(--color-trending)); */
   display: grid;
   place-items: center;
   font-size: 1.25rem;
@@ -397,6 +398,7 @@ body::before {
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 0.75rem;
@@ -646,3 +648,190 @@ body::before {
 .profile-card:nth-child(10) { animation-delay: 0.20s; }
 .profile-card:nth-child(11) { animation-delay: 0.22s; }
 .profile-card:nth-child(12) { animation-delay: 0.24s; }
+
+.hero-section {
+  text-align: center;
+  padding: 8rem 1rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  margin-bottom: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  isolation: isolate;
+}
+
+.hero-video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.hero-video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+  filter: blur(2px) contrast(1.1);
+  transition: opacity 0.5s ease;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(10, 10, 15, 0.4) 0%, var(--color-bg) 100%);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  max-width: 900px;
+}
+
+.hero-dot {
+  color: var(--color-accent);
+  display: inline-block;
+  animation: float-pulse 3s ease-in-out infinite;
+}
+
+@keyframes float-pulse {
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px var(--color-accent-glow)); }
+  50% { transform: translateY(-5px) scale(1.1); filter: drop-shadow(0 0 20px var(--color-accent-light)); }
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--color-text-muted);
+  max-width: 700px;
+  line-height: 1.6;
+  margin-bottom: 3.5rem;
+}
+
+/* ── Glass Banner ──────────────────────────────────────────── */
+.cta-banner {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto 5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), var(--color-success), transparent);
+  opacity: 0.7;
+}
+
+.cta-banner-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-trending));
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+}
+
+/* ── Header Navigation ──────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #fff;
+}
+
+.nav-link.active {
+  position: relative;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.featured-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.featured-icon {
+  color: var(--color-star);
+}

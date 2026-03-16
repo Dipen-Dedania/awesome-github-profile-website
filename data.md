@@ -1,4 +1,21 @@
 <!-- PROFILES-START -->
+
+---
+Repo - https://github.com/vivek9patel/vivek9patel.github.io
+
+Link - https://vivek9patel.github.io/
+---
+Repo - https://github.com/codewithsadee/vcard-personal-portfolio
+
+Link - https://codewithsadee.github.io/vcard-personal-portfolio/
+---
+Repo - https://github.com/academicpages/academicpages.github.io
+
+Link - https://academicpages.github.io
+---
+Repo - https://github.com/alshedivat/al-folio
+
+Link - https://alshedivat.github.io/al-folio/
 ---
 Repo - https://github.com/mmistakes/minimal-mistakes
 
@@ -88,21 +105,9 @@ Repo - https://github.com/ahmedbesbes/gatsby-blog
 
 Link - https://ahmedbesbes.com/
 ---
-Repo - https://github.com/academicpages/academicpages.github.io
-
-Link - https://academicpages.github.io
----
-Repo - https://github.com/alshedivat/al-folio
-
-Link - https://alshedivat.github.io/al-folio/
----
 Repo - https://github.com/RyanFitzgerald/devportfolio
 
 Link - https://ryanfitzgerald.github.io/devportfolio/
----
-Repo - https://github.com/vivek9patel/vivek9patel.github.io
-
-Link - https://vivek9patel.github.io/
 ---
 Repo - https://github.com/varadbhogayata/varadbhogayata.github.io
 
@@ -123,10 +128,6 @@ Link - http://ashutosh1919.github.io/
 Repo - https://github.com/said7388/developer-portfolio
 
 Link - https://abusaid.netlify.app
----
-Repo - https://github.com/codewithsadee/vcard-personal-portfolio
-
-Link - https://codewithsadee.github.io/vcard-personal-portfolio/
 ---
 Repo - https://github.com/albinotonnina/albinotonnina.com
 
