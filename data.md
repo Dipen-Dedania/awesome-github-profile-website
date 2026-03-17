@@ -49,10 +49,6 @@ Repo - https://github.com/benjdj6/benjdj6.github.io
 
 Link - https://benjdj6.github.io/
 ---
-Repo - https://github.com/bernicewygo/bernicewygo.github.io
-
-Link - http://bernicewygo.github.io/
----
 Repo - https://github.com/ChaiBapchya/ChaiBapchya.github.io
 
 Link - https://chaibapchya.github.io/
@@ -85,17 +81,9 @@ Repo - https://github.com/jeremiahlukus/jeremiahlukus.github.io
 
 Link - https://jeremiahlukus.github.io/
 ---
-Repo - https://github.com/fr1sk/fr1sk.github.io
-
-Link - http://fr1sk.github.io/
----
 Repo - https://github.com/meeoh/meeoh.github.io
 
 Link - http://meeoh.github.io/
----
-Repo - https://github.com/sreetamdas/sreetamdas.github.io
-
-Link - https://sreetamdas.github.io/
 ---
 Repo - https://github.com/swati4star/swati4star.github.io
 
@@ -104,10 +92,6 @@ Link - https://swati4star.github.io/
 Repo - https://github.com/mattwilliams85/mattwilliams85.github.io
 
 Link - http://mattwilliams85.github.io
----
-Repo - https://github.com/ahmedbesbes/gatsby-blog
-
-Link - https://ahmedbesbes.com/
 ---
 Repo - https://github.com/RyanFitzgerald/devportfolio
 
@@ -160,6 +144,78 @@ Link - https://rashmiranjan07.github.io/Portfolio/
 Repo - https://github.com/nirajprakash/nirajprakash.github.io
 
 Link - https://nirajprakash.github.io/
+---
+Repo - https://github.com/vinaysomawat/vinaysomawat.github.io
+
+Link - https://vinaysomawat.github.io/
+---
+Repo - https://github.com/unchained-labs/elejeune.xyz
+
+Link - https://elejeune.me
+---
+Repo - https://github.com/unchained-labs/pstidotcom
+
+Link - https://pavelstoudek.xyz/
+---
+Repo - https://github.com/guilyx/hi.elejeune.me
+
+Link - https://hi.elejeune.me
+---
+Repo - https://github.com/unchained-labs/unchainlabs.xyz
+
+Link - https://unchainlabs.xyz
+---
+Repo - https://github.com/guilyx/resume
+
+Link - https://resume.elejeune.me
+---
+Repo - https://github.com/shoyogin/resume
+
+Link - https://gin.unchainlabs.xyz
+---
+Repo - https://github.com/jrosseruk/jrosseruk.github.io
+
+Link - https://jrosseruk.github.io/
+---
+Repo - https://github.com/itsron717/ParticleGround-Portfolio
+
+Link - https://landing-page--itsron717.repl.co/
+---
+Repo - https://github.com/mmacneil/devfolio
+
+Link - https://mmacneil.github.io/devfolio/
+---
+Repo - https://github.com/evanca/quick-portfolio
+
+Link - https://yourawesomeusername.github.io/
+---
+Repo - https://github.com/saragong/hello/
+
+Link - https://saragong.github.io/hello/
+---
+Repo - https://github.com/Liberxue/liberxue.github.io
+
+Link - https://liberxue.github.io
+---
+Repo - https://github.com/proyecto26/proyecto26.github.io
+
+Link - https://proyecto26.github.io
+---
+Repo - https://github.com/aboualnaser/aboualnaser.github.io/
+
+Link - https://aboualnaser.github.io/
+---
+Repo - https://github.com/guilyx/guilyx.github.io/
+
+Link - https://guilyx.github.io
+---
+Repo - https://github.com/hashirshoaeb/home
+
+Link - https://hashirshoaeb.com/
+---
+Repo - https://github.com/Sagargupta16/portfolio-react
+
+Link - https://sagargupta.online/portfolio-react/
 ---
 
 <!-- PROFILES-END -->

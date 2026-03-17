@@ -835,3 +835,194 @@ body::before {
 .featured-icon {
   color: var(--color-star);
 }
+
+/* ── Screenshot Marquee Gallery ──────────────────────────────── */
+.screenshot-gallery-section {
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(108, 92, 231, 0.05), transparent 60%);
+}
+
+.gallery-header {
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #fff 30%, var(--color-accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.marquee-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* Rotate slightly for a stunning premium pseudo-3D look */
+  transform: rotate(-2deg) scale(1.05);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.marquee-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15vw;
+  z-index: 10;
+  pointer-events: none;
+}
+.marquee-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg), transparent);
+}
+.marquee-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg), transparent);
+}
+
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollX 60s linear infinite;
+  min-width: 100%;
+  flex-shrink: 0;
+  /* Hardware acceleration for smooth scrolling */
+  will-change: transform;
+}
+
+.marquee-reverse .marquee-content {
+  animation-direction: reverse;
+  animation-duration: 75s; 
+}
+
+@keyframes scrollX {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  width: 400px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  aspect-ratio: 16 / 10;
+}
+
+.marquee-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(108, 92, 231, 0.4);
+  z-index: 5;
+}
+
+.screenshot-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.screenshot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  filter: brightness(0.85);
+}
+
+.marquee-item:hover .screenshot-img {
+  transform: scale(1.05);
+  filter: brightness(1);
+}
+
+.screenshot-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 10, 15, 0.9) 0%, rgba(10, 10, 15, 0.2) 50%, transparent 100%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.marquee-item:hover .screenshot-overlay {
+  opacity: 1;
+}
+
+.screenshot-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(10px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.marquee-item:hover .screenshot-info {
+  transform: translateY(0);
+}
+
+.screenshot-username {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.screenshot-link-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-xs);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.screenshot-link-btn:hover {
+  background: var(--color-accent-light);
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .marquee-item {
+    width: 280px;
+  }
+}

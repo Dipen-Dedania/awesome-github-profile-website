@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import Hls from 'hls.js';
 import ProfileCard from './ProfileCard.jsx';
+import ScreenshotGallery from './ScreenshotGallery.jsx';
 
 export default function LandingSection({ profiles, repoStatsMap, userStatsMap, onBrowseTemplates }) {
   // Compute Top 4 featured profiles based on stars
@@ -93,6 +94,9 @@ export default function LandingSection({ profiles, repoStatsMap, userStatsMap, o
           </button>
         </div>
       </section>
+
+      {/* Screenshot Gallery Section */}
+      <ScreenshotGallery />
 
       {/* Featured Profiles Section */}
       <section className="featured-section">

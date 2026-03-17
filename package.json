@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "extract": "node scripts/extract-profiles-from-readme.js",
-    "prebuild": "node scripts/extract-profiles-from-readme.js",
-    "dev": "node scripts/extract-profiles-from-readme.js && vite",
+    "generate:screenshots": "node scripts/generate-screenshots-list.js",
+    "prebuild": "npm run extract && npm run generate:screenshots",
+    "dev": "npm run prebuild && vite",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && npx -y gh-pages -d dist"
