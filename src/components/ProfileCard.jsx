@@ -1,4 +1,3 @@
-// Language → color mapping (subset of GitHub's linguist colors)
 const LANG_COLORS = {
   JavaScript: '#f1e05a',
   TypeScript: '#3178c6',
@@ -46,24 +45,22 @@ function isTrending(stats) {
   return daysSinceUpdate <= 90;
 }
 
-export default function ProfileCard({ profile, repoStats, userStats }) {
+export default function ProfileCard({
+  profile,
+  repoStats,
+  userStats,
+  isHydratingStats = false,
+}) {
   const trending = isTrending(repoStats);
   const langColor = LANG_COLORS[repoStats?.language] || '#8b8b9e';
   const updated = timeAgo(repoStats?.updatedAt);
 
   return (
     <div className="profile-card" id={`card-${profile.id}`}>
-      {/* Top glow line */}
       <div className="card-glow" />
 
-      {/* Trending badge */}
-      {trending && (
-        <div className="trending-badge">
-          🔥 Trending
-        </div>
-      )}
+      {trending && <div className="trending-badge">Trending</div>}
 
-      {/* Header: avatar + title */}
       <div className="card-header">
         {userStats?.avatarUrl ? (
           <img
@@ -105,51 +102,56 @@ export default function ProfileCard({ profile, repoStats, userStats }) {
         </div>
       </div>
 
-      {/* Body */}
       <div className="card-body">
-        {/* Description */}
         <div className="card-description">
           {repoStats?.description || 'No description available.'}
         </div>
 
-        {/* Stats row */}
         <div className="card-stats-row">
           {repoStats ? (
             <>
               <div className="card-stat">
-                <span className="stat-icon">⭐</span>
+                <span className="stat-icon">star</span>
                 <span className="stat-label">
                   {(repoStats.stars || 0).toLocaleString()}
                 </span>
               </div>
               <div className="card-stat">
-                <span className="stat-icon">🍴</span>
+                <span className="stat-icon">fork</span>
                 <span className="stat-label">
                   {(repoStats.forks || 0).toLocaleString()}
                 </span>
               </div>
               {repoStats.language && (
                 <span className="card-language-badge">
-                  <span
-                    className="language-dot"
-                    style={{ background: langColor }}
-                  />
+                  <span className="language-dot" style={{ background: langColor }} />
                   {repoStats.language}
                 </span>
               )}
               {updated && <span className="card-updated">Updated {updated}</span>}
             </>
-          ) : (
+          ) : isHydratingStats ? (
             <>
               <div className="skeleton" style={{ width: 50, height: 16 }} />
               <div className="skeleton" style={{ width: 50, height: 16 }} />
               <div className="skeleton" style={{ width: 70, height: 16 }} />
             </>
+          ) : (
+            <>
+              <div className="card-stat">
+                <span className="stat-icon">star</span>
+                <span className="stat-label">0</span>
+              </div>
+              <div className="card-stat">
+                <span className="stat-icon">fork</span>
+                <span className="stat-label">0</span>
+              </div>
+              <span className="card-updated">Stats unavailable</span>
+            </>
           )}
         </div>
       </div>
 
-      {/* Actions */}
       <div className="card-actions">
         {profile.siteUrl && (
           <a
@@ -159,7 +161,7 @@ export default function ProfileCard({ profile, repoStats, userStats }) {
             rel="noopener noreferrer"
             id={`view-site-${profile.id}`}
           >
-            🌐 View site
+            View site
           </a>
         )}
         {profile.repoUrl && (
@@ -170,7 +172,7 @@ export default function ProfileCard({ profile, repoStats, userStats }) {
             rel="noopener noreferrer"
             id={`view-code-${profile.id}`}
           >
-            📂 View code
+            View code
           </a>
         )}
       </div>

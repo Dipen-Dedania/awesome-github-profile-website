@@ -1,22 +1,13 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { profiles } from './profiles.js';
-import { fetchRepoStats, fetchUserStats } from './githubClient.js';
+import { hydrateProfileStats } from './githubClient.js';
+import { getFirebaseCacheStatus } from './firebaseCache.js';
 import StatsBar from './components/StatsBar.jsx';
 import Filters from './components/Filters.jsx';
 import ProfileCard from './components/ProfileCard.jsx';
 import LandingSection from './components/LandingSection.jsx';
 
 import logo from './assets/logo.png';
-
-function extractOwnerRepo(repoUrl) {
-  try {
-    const u = new URL(repoUrl);
-    const parts = u.pathname.split('/').filter(Boolean);
-    return { owner: parts[0], repo: parts[1] };
-  } catch {
-    return { owner: null, repo: null };
-  }
-}
 
 export default function App() {
   const [search, setSearch] = useState('');
@@ -25,8 +16,16 @@ export default function App() {
   const [sort, setSort] = useState('name-asc');
   const [repoStatsMap, setRepoStatsMap] = useState({});
   const [userStatsMap, setUserStatsMap] = useState({});
+  const [cacheSummary, setCacheSummary] = useState({
+    repoCount: 0,
+    userCount: 0,
+    totalCount: 0,
+    syncedAt: null,
+  });
+  const [isHydratingStats, setIsHydratingStats] = useState(true);
   const [currentView, setCurrentView] = useState('landing');
   const debounceTimer = useRef(null);
+  const hasHydratedStats = useRef(false);
 
   // Debounce search
   const handleSearchChange = useCallback((value) => {
@@ -37,38 +36,67 @@ export default function App() {
     }, 300);
   }, []);
 
-  // Hydrate cards with GitHub stats
+  // Hydrate cards from shared/local cache and refresh stale records.
   useEffect(() => {
+    // Prevent duplicate sync runs in React StrictMode (development only).
+    if (hasHydratedStats.current) return;
+    hasHydratedStats.current = true;
+
     let cancelled = false;
-    const seenUsers = new Set();
 
-    async function hydrate() {
-      for (const profile of profiles) {
-        if (cancelled) break;
-
-        // Fetch repo stats
-        if (profile.repoUrl) {
-          const { owner, repo } = extractOwnerRepo(profile.repoUrl);
-          if (owner && repo) {
-            const stats = await fetchRepoStats(owner, repo);
-            if (!cancelled && stats) {
-              setRepoStatsMap((prev) => ({ ...prev, [profile.id]: stats }));
-            }
-          }
-        }
-
-        // Fetch user stats (deduplicate by author)
-        if (profile.author && !seenUsers.has(profile.author)) {
-          seenUsers.add(profile.author);
-          const user = await fetchUserStats(profile.author);
-          if (!cancelled && user) {
-            setUserStatsMap((prev) => ({ ...prev, [profile.author]: user }));
-          }
-        }
+    if (import.meta.env.DEV) {
+      const status = getFirebaseCacheStatus();
+      console.info('[github-cache] Firebase enabled:', status.enabled);
+      if (!status.enabled) {
+        console.info(
+          '[github-cache] Missing Firebase config keys:',
+          status.missingKeys.join(', '),
+        );
       }
     }
 
-    hydrate();
+    const repoKeyToProfileIds = {};
+    for (const profile of profiles) {
+      if (!profile.repoUrl) continue;
+      try {
+        const u = new URL(profile.repoUrl);
+        const parts = u.pathname.split('/').filter(Boolean);
+        if (parts.length < 2) continue;
+        const key = `${parts[0].toLowerCase()}/${parts[1].toLowerCase()}`;
+        if (!repoKeyToProfileIds[key]) repoKeyToProfileIds[key] = [];
+        repoKeyToProfileIds[key].push(profile.id);
+      } catch {
+        // Ignore invalid URLs.
+      }
+    }
+
+    Promise.resolve(
+      hydrateProfileStats(profiles, {
+        onRepoStat(repoKey, stat) {
+          if (cancelled || !stat) return;
+          const profileIds = repoKeyToProfileIds[repoKey] || [];
+          if (profileIds.length === 0) return;
+          setRepoStatsMap((prev) => {
+            const next = { ...prev };
+            for (const id of profileIds) next[id] = stat;
+            return next;
+          });
+        },
+        onUserStat(usernameKey, stat) {
+          if (cancelled || !stat) return;
+          setUserStatsMap((prev) => ({ ...prev, [usernameKey]: stat }));
+        },
+      }),
+    ).then((summary) => {
+      if (!cancelled && summary) {
+        setCacheSummary(summary);
+      }
+    }).finally(() => {
+      if (!cancelled) {
+        setIsHydratingStats(false);
+      }
+    });
+
     return () => {
       cancelled = true;
     };
@@ -170,12 +198,17 @@ export default function App() {
             profiles={profiles} 
             repoStatsMap={repoStatsMap} 
             userStatsMap={userStatsMap} 
+            isHydratingStats={isHydratingStats}
             onBrowseTemplates={() => setCurrentView('templates')}
           />
         ) : (
           <>
             {/* Stats */}
-            <StatsBar profiles={profiles} repoStatsMap={repoStatsMap} />
+            <StatsBar
+              profiles={profiles}
+              repoStatsMap={repoStatsMap}
+              cacheSummary={cacheSummary}
+            />
 
             {/* Filters */}
             <Filters
@@ -203,7 +236,11 @@ export default function App() {
                     key={profile.id}
                     profile={profile}
                     repoStats={repoStatsMap[profile.id]}
-                    userStats={userStatsMap[profile.author]}
+                    isHydratingStats={isHydratingStats}
+                    userStats={
+                      userStatsMap[profile.author?.toLowerCase()] ||
+                      userStatsMap[profile.author]
+                    }
                   />
                 ))
               )}

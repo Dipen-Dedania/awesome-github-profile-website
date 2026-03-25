@@ -8,10 +8,11 @@
 
 ## 🚀 The Gallery Site
 We've built a modern, responsive gallery site to showcase these profiles. It features:
-- **GitHub API Integration:** Real-time stars, forks, and language detection.
+- **Firebase Cache:** The browser reads stats from Firebase and local cache only.
+- **Background Sync:** A Node script refreshes Firebase from GitHub on a schedule.
 - **Smart Filtering:** Search by name, author, or language.
 - **Modern UI:** A sleek dark-mode interface with glassmorphism and animations.
-- **README-Driven:** The site automatically syncs with this README file.
+- **Data.md-Driven:** The site automatically syncs with this `data.md` file.
 
 
 Hey there,
@@ -40,14 +41,28 @@ This project uses **React + Vite + Tailwind CSS**. The profile data is automatic
    ```bash
    npm install
    ```
-2. **Start development server:**
+2. **Configure Firebase cache:**
+   - Copy `.env.example` to `.env`
+   - Fill Firebase Web SDK fields and Realtime Database URL
+   - Add `GITHUB_TOKEN` if you want to run the sync script locally
+
+3. **Start development server:**
    ```bash
    npm run dev
    ```
-   *The extraction script will automatically run to sync with the latest README changes.*
+   *The extraction script will automatically run to sync with the latest `data.md` changes.*
+
+### Sync Cache
+Run this to refresh GitHub stats into Firebase:
+```bash
+npm run sync:github-cache
+```
+The command skips records that are newer than one week.
 
 ### Deploying
-The project is configured with **GitHub Actions**. Simply push your changes to the `main` branch, and it will automatically deploy to GitHub Pages.
+The project is configured with **GitHub Actions**. Simply push your changes to the `master` branch, and it will automatically deploy to GitHub Pages.
+
+There is also a scheduled workflow that refreshes the Firebase cache daily.
 
 Alternatively, to deploy manually:
 ```bash

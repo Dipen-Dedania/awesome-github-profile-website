@@ -6,6 +6,7 @@
   "scripts": {
     "extract": "node scripts/extract-profiles-from-readme.js",
     "generate:screenshots": "node scripts/generate-screenshots-list.js",
+    "sync:github-cache": "node scripts/sync-github-cache.js",
     "prebuild": "npm run extract && npm run generate:screenshots",
     "dev": "npm run prebuild && vite",
     "build": "vite build",
@@ -13,6 +14,7 @@
     "deploy": "npm run build && npx -y gh-pages -d dist"
   },
   "dependencies": {
+    "firebase": "^12.11.0",
     "hls.js": "^1.6.15",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

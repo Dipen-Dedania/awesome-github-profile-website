@@ -1,4 +1,9 @@
-export default function StatsBar({ profiles, repoStatsMap }) {
+function formatSyncedAt(syncedAt) {
+  if (!syncedAt) return 'never';
+  return new Date(syncedAt).toLocaleString();
+}
+
+export default function StatsBar({ profiles, repoStatsMap, cacheSummary }) {
   const totalProfiles = profiles.length;
   const personalCount = profiles.filter((p) => p.type === 'personal').length;
   const templateCount = profiles.filter((p) => p.type === 'template').length;
@@ -40,6 +45,10 @@ export default function StatsBar({ profiles, repoStatsMap }) {
       <div className="stat-pill">
         <span className="stat-icon">💻</span>
         Top language: <span className="stat-value">{topLanguage}</span>
+      </div>
+      <div className="stat-pill">
+        <span className="stat-icon">🕒</span>
+        Synced: <span className="stat-value">{formatSyncedAt(cacheSummary?.syncedAt)}</span>
       </div>
     </div>
   );
