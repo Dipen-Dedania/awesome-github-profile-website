@@ -45,10 +45,6 @@ Repo - https://github.com/benjdj6/benjdj6.github.io
 
 Link - https://benjdj6.github.io/
 ---
-Repo - https://github.com/benjdj6/benjdj6.github.io
-
-Link - https://benjdj6.github.io/
----
 Repo - https://github.com/ChaiBapchya/ChaiBapchya.github.io
 
 Link - https://chaibapchya.github.io/
@@ -176,10 +172,6 @@ Link - https://gin.unchainlabs.xyz
 Repo - https://github.com/jrosseruk/jrosseruk.github.io
 
 Link - https://jrosseruk.github.io/
----
-Repo - https://github.com/itsron717/ParticleGround-Portfolio
-
-Link - https://landing-page--itsron717.repl.co/
 ---
 Repo - https://github.com/mmacneil/devfolio
 
@@ -313,10 +305,6 @@ Repo - https://github.com/SiR-PENt/folio-me
 
 Link - https://kanmibalogun.vercel.app/
 ---
-Repo - https://github.com/yinkakun/yinkakun-portfolio
-
-Link - https://www.yinka.codes/
----
 Repo - https://github.com/bhavinvirani/Protfolio
 
 Link - https://bhavinn.xyz
@@ -379,7 +367,7 @@ Link - https://portfolio-srnascimento40.vercel.app/
 ---
 Repo - https://github.com/vanessa-dev/nessa.js
 
-Link - https://www.nessajs.com.br/
+Link - https://nessa-js.vercel.app/
 ---
 Repo - https://github.com/antfu/antfu.me
 
@@ -483,7 +471,7 @@ Link - https://www.pravinmane.com/
 ---
 Repo - https://github.com/mathisdev7/my-portfolio
 
-Link - https://mathisdev.pro
+Link - https://www.sitham.dev/
 ---
 Repo - https://github.com/KDGehlot2003/Portfolio
 
@@ -508,10 +496,6 @@ Link - https://carsonsgit.github.io/
 Repo - https://github.com/napthedev/portfolio-next
 
 Link - https://napthedev.com
----
-Repo - https://github.com/saucecodee/ifedili.com
-
-Link - https://www.ifedili.com
 ---
 Repo - https://github.com/theodorusclarence/theodorusclarence.com
 
@@ -539,7 +523,7 @@ Link - https://dalim.in
 ---
 Repo - https://github.com/nixrajput/portfolio-nextjs
 
-Link - https://nixrajput.nixlab.co.in/
+Link - https://nixrajput.com/
 ---
 Repo - https://github.com/tri-dang/tri-dang.github.io
 
@@ -548,10 +532,6 @@ Link - https://tri-dang.github.io/about
 Repo - https://github.com/oluwadareseyi/folio-v2
 
 Link - https://www.seyi.dev
----
-Repo - https://github.com/efrencodes/efrencodes.ts
-
-Link - https://efrencodes.com
 ---
 Repo - https://github.com/ridafkih/portfolio
 

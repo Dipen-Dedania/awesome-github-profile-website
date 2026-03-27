@@ -25,7 +25,6 @@ export default function App() {
   const [isHydratingStats, setIsHydratingStats] = useState(true);
   const [currentView, setCurrentView] = useState('landing');
   const debounceTimer = useRef(null);
-  const hasHydratedStats = useRef(false);
 
   // Debounce search
   const handleSearchChange = useCallback((value) => {
@@ -38,10 +37,6 @@ export default function App() {
 
   // Hydrate cards from shared/local cache and refresh stale records.
   useEffect(() => {
-    // Prevent duplicate sync runs in React StrictMode (development only).
-    if (hasHydratedStats.current) return;
-    hasHydratedStats.current = true;
-
     let cancelled = false;
 
     if (import.meta.env.DEV) {

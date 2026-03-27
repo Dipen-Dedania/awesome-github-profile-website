@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from 'react';
+
 const LANG_COLORS = {
   JavaScript: '#f1e05a',
   TypeScript: '#3178c6',
@@ -55,11 +57,43 @@ export default function ProfileCard({
   const langColor = LANG_COLORS[repoStats?.language] || '#8b8b9e';
   const updated = timeAgo(repoStats?.updatedAt);
 
+  const coverCandidates = useMemo(() => {
+    const author = (profile.author || '').trim();
+    if (!author) return [];
+
+    const base = import.meta.env.BASE_URL || '/';
+    const list = [`${base}screenshots/${author}.png`];
+    const lower = author.toLowerCase();
+    if (lower !== author) list.push(`${base}screenshots/${lower}.png`);
+    return list;
+  }, [profile.author]);
+
+  const [coverIndex, setCoverIndex] = useState(0);
+  useEffect(() => {
+    setCoverIndex(0);
+  }, [profile.author]);
+
+  const coverSrc = coverCandidates[coverIndex] || null;
+
   return (
     <div className="profile-card" id={`card-${profile.id}`}>
       <div className="card-glow" />
 
       {trending && <div className="trending-badge">Trending</div>}
+
+      <div className="card-cover">
+        {coverSrc ? (
+          <img
+            className="card-cover-img"
+            src={coverSrc}
+            alt={`${profile.author} portfolio preview`}
+            loading="lazy"
+            onError={() => setCoverIndex((prev) => prev + 1)}
+          />
+        ) : (
+          <div className="card-cover-fallback">Screenshot unavailable</div>
+        )}
+      </div>
 
       <div className="card-header">
         {userStats?.avatarUrl ? (

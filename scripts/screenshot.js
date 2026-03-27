@@ -10,6 +10,7 @@ const ROOT = join(__dirname, '..');
 // https://api.screenshotmachine.com?key=184ec7&url=https://dipen-dedania.github.io/&dimension=1024x768
 
 const API_KEY = '184ec7';
+const API_KEY_v2 = '540061';
 const SCREENSHOT_DIR = join(ROOT, 'public', 'screenshots');
 
 // Create directory if it doesn't exist
@@ -46,7 +47,7 @@ async function downloadScreenshot(username, siteUrl) {
   }
   
   // Create API URL
-  const apiUrl = `https://api.screenshotmachine.com?key=${API_KEY}&url=${encodeURIComponent(siteUrl)}&dimension=1024x768`;
+  const apiUrl = `https://api.screenshotmachine.com?key=${API_KEY_v2}&url=${encodeURIComponent(siteUrl)}&dimension=1024x768`;
   
   console.log(`Downloading screenshot for ${username} from ${siteUrl}...`);
   try {
