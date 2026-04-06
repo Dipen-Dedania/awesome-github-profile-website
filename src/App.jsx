@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+﻿import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { profiles } from './profiles.js';
 import { hydrateProfileStats } from './githubClient.js';
 import { getFirebaseCacheStatus } from './firebaseCache.js';
@@ -7,8 +7,51 @@ import Filters from './components/Filters.jsx';
 import ProfileCard from './components/ProfileCard.jsx';
 import LandingSection from './components/LandingSection.jsx';
 import ProfileBook from './components/ProfileBook.jsx';
+import SetupGuide from './components/SetupGuide.jsx';
 
 import logo from './assets/logo.png';
+
+const VIEW_PATHS = {
+  landing: '/',
+  templates: '/templates',
+  book: '/profile-book',
+  setup: '/github-pages-setup',
+};
+const APP_BASE_PATH = normalizePath(import.meta.env.BASE_URL || '/');
+
+function normalizePath(pathname) {
+  if (!pathname) return '/';
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    return pathname.slice(0, -1);
+  }
+  return pathname;
+}
+
+function getViewFromPath(pathname) {
+  const normalizedPath = normalizePath(pathname);
+  const routePath = stripBasePath(normalizedPath);
+
+  if (routePath === VIEW_PATHS.book) return 'book';
+  if (routePath === VIEW_PATHS.setup) return 'setup';
+  if (routePath === VIEW_PATHS.templates) return 'templates';
+  return 'landing';
+}
+
+function stripBasePath(pathname) {
+  if (APP_BASE_PATH === '/') return pathname;
+  if (pathname === APP_BASE_PATH) return '/';
+  if (pathname.startsWith(`${APP_BASE_PATH}/`)) {
+    return pathname.slice(APP_BASE_PATH.length) || '/';
+  }
+  return pathname;
+}
+
+function getPathForView(view) {
+  const routePath = VIEW_PATHS[view] || VIEW_PATHS.landing;
+  if (APP_BASE_PATH === '/') return routePath;
+  if (routePath === '/') return APP_BASE_PATH;
+  return `${APP_BASE_PATH}${routePath}`;
+}
 
 export default function App() {
   const [search, setSearch] = useState('');
@@ -24,8 +67,25 @@ export default function App() {
     syncedAt: null,
   });
   const [isHydratingStats, setIsHydratingStats] = useState(true);
-  const [currentView, setCurrentView] = useState('landing');
+  const [currentView, setCurrentView] = useState(() =>
+    getViewFromPath(window.location.pathname),
+  );
   const debounceTimer = useRef(null);
+
+  const navigateToView = useCallback((view, options = {}) => {
+    const { replace = false } = options;
+    const targetPath = getPathForView(view);
+    const currentPath = normalizePath(window.location.pathname);
+
+    if (currentPath !== targetPath) {
+      const historyAction = replace
+        ? window.history.replaceState
+        : window.history.pushState;
+      historyAction.call(window.history, { view }, '', targetPath);
+    }
+
+    setCurrentView(view);
+  }, []);
 
   // Debounce search
   const handleSearchChange = useCallback((value) => {
@@ -83,20 +143,48 @@ export default function App() {
           setUserStatsMap((prev) => ({ ...prev, [usernameKey]: stat }));
         },
       }),
-    ).then((summary) => {
-      if (!cancelled && summary) {
-        setCacheSummary(summary);
-      }
-    }).finally(() => {
-      if (!cancelled) {
-        setIsHydratingStats(false);
-      }
-    });
+    )
+      .then((summary) => {
+        if (!cancelled && summary) {
+          setCacheSummary(summary);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsHydratingStats(false);
+        }
+      });
 
     return () => {
       cancelled = true;
     };
   }, []);
+
+  // Keep UI state in sync with browser path and back/forward navigation.
+  useEffect(() => {
+    const normalizedPath = normalizePath(window.location.pathname);
+    const inferredView = getViewFromPath(normalizedPath);
+
+    setCurrentView(inferredView);
+
+    if (
+      normalizedPath !== getPathForView('landing') &&
+      normalizedPath !== getPathForView('templates') &&
+      normalizedPath !== getPathForView('book') &&
+      normalizedPath !== getPathForView('setup')
+    ) {
+      navigateToView('landing', { replace: true });
+    }
+
+    const handlePopState = () => {
+      setCurrentView(getViewFromPath(window.location.pathname));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigateToView]);
 
   // Filter + sort
   const filteredProfiles = useMemo(() => {
@@ -157,7 +245,7 @@ export default function App() {
       {/* Header */}
       <header className="site-header">
         <div className="header-inner">
-          <div className="header-brand" onClick={() => setCurrentView('landing')}>
+          <div className="header-brand" onClick={() => navigateToView('landing')}>
             <div className="header-icon">
               <img src={logo} alt="Logo" />
             </div>
@@ -169,18 +257,36 @@ export default function App() {
             </div>
           </div>
           <nav className="nav-links">
-            <a 
+            <a
               className={`nav-link ${currentView === 'templates' ? 'active' : ''}`}
-              onClick={() => setCurrentView('templates')}
+              href={getPathForView('templates')}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateToView('templates');
+              }}
             >
               Templates Gallery
             </a>
             <a
               className={`nav-link ${currentView === 'book' ? 'active' : ''}`}
-              onClick={() => setCurrentView('book')}
+              href={getPathForView('book')}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateToView('book');
+              }}
               id="profile-book-nav"
             >
-              📖 Profile Book
+              Profile Book
+            </a>
+            <a
+              className={`nav-link ${currentView === 'setup' ? 'active' : ''}`}
+              href={getPathForView('setup')}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateToView('setup');
+              }}
+            >
+              Setup GitHub Pages
             </a>
             <a
               className="github-link"
@@ -197,12 +303,12 @@ export default function App() {
 
       <main className="container">
         {currentView === 'landing' ? (
-          <LandingSection 
-            profiles={profiles} 
-            repoStatsMap={repoStatsMap} 
-            userStatsMap={userStatsMap} 
+          <LandingSection
+            profiles={profiles}
+            repoStatsMap={repoStatsMap}
+            userStatsMap={userStatsMap}
             isHydratingStats={isHydratingStats}
-            onBrowseTemplates={() => setCurrentView('templates')}
+            onBrowseTemplates={() => navigateToView('templates')}
           />
         ) : currentView === 'book' ? (
           <ProfileBook
@@ -211,6 +317,8 @@ export default function App() {
             userStatsMap={userStatsMap}
             isHydratingStats={isHydratingStats}
           />
+        ) : currentView === 'setup' ? (
+          <SetupGuide onBrowseTemplates={() => navigateToView('templates')} />
         ) : (
           <>
             {/* Stats */}
