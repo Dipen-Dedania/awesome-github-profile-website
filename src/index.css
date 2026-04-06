@@ -1059,3 +1059,778 @@ body::before {
     width: 280px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   PROFILE BOOK — react-pageflip view
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Book view wrapper ────────────────────────────────────────── */
+.book-view {
+  padding: 3rem 1rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.book-view-header {
+  text-align: center;
+  max-width: 680px;
+}
+
+.book-view-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.75rem;
+  line-height: 1.15;
+}
+
+.book-view-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ── Book stage (3-D perspective wrapper) ─────────────────────── */
+.book-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 2400px;
+  padding: 2.5rem 1rem 1.5rem;
+  overflow: hidden; /* clip next-page bleed */
+}
+
+.book-shelf-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 24px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, transparent 80%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* react-pageflip container */
+.book-flipbook {
+  border-radius: 4px;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* ── Generic book page ────────────────────────────────────────── */
+.book-page {
+  background: #13131e;
+  color: var(--color-text);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+.book-page--left {
+  border-right: 1px solid rgba(255,255,255,0.04);
+  background-image: linear-gradient(to right, transparent 96%, rgba(0,0,0,0.25) 100%);
+}
+
+.book-page--right {
+  border-left: 1px solid rgba(255,255,255,0.04);
+  background-image: linear-gradient(to left, transparent 96%, rgba(0,0,0,0.25) 100%);
+}
+
+/* ── Cover page ───────────────────────────────────────────────── */
+.book-page--cover {
+  background: linear-gradient(160deg, #0f0e1a 0%, #1a1030 40%, #0d1a25 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.75rem;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  gap: 0.85rem;
+}
+
+.cover-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cover-sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-accent-light);
+  opacity: 0;
+  animation: sparkle-float 4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.35s);
+  top: calc(15% + var(--i) * 5%);
+  left: calc(8% + var(--i) * 7%);
+}
+
+@keyframes sparkle-float {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+  50% { opacity: 0.7; transform: translateY(-12px) scale(1.5); }
+}
+
+.cover-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent-light);
+  background: rgba(108,92,231,0.15);
+  border: 1px solid rgba(108,92,231,0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+.cover-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 24px rgba(108,92,231,0.6));
+  animation: float-pulse 3s ease-in-out infinite;
+}
+
+.cover-title {
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.cover-title-accent {
+  background: linear-gradient(135deg, var(--color-accent-light), var(--color-trending));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cover-subtitle {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+.cover-cta {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--color-accent-light);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  animation: pulse-trending 2s ease-in-out infinite;
+}
+
+.cover-footer {
+  position: absolute;
+  bottom: 1.25rem;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── TOC page ─────────────────────────────────────────────────── */
+.book-page--toc {
+  background: linear-gradient(160deg, #13131e 0%, #0f0e1a 100%);
+}
+
+.toc-inner {
+  padding: 2rem 1.75rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.toc-header {
+  margin-bottom: 0.5rem;
+}
+
+.toc-chapter {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.35rem;
+}
+
+.toc-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.toc-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+  margin-bottom: 0.25rem;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.28rem 0.4rem;
+  border-radius: var(--radius-xs);
+  transition: background 0.2s ease;
+  font-size: 0.75rem;
+}
+
+.toc-item:hover {
+  background: rgba(108,92,231,0.12);
+}
+
+.toc-num {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.toc-name {
+  color: var(--color-text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(255,255,255,0.12);
+  margin: 0 0.25rem;
+  min-width: 10px;
+}
+
+.toc-page {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.toc-more {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-style: italic;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* ── Intro page ───────────────────────────────────────────────── */
+.book-page--intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-inner {
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  height: 100%;
+  justify-content: center;
+}
+
+.intro-quote {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.intro-quote::before {
+  content: '"';
+  position: absolute;
+  left: -0.15rem;
+  top: -0.4rem;
+  font-size: 3.5rem;
+  color: var(--color-accent);
+  font-style: normal;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.intro-line {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-trending), transparent);
+  opacity: 0.5;
+}
+
+.intro-body {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.intro-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.intro-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(108,92,231,0.12);
+  border: 1px solid rgba(108,92,231,0.25);
+  color: var(--color-accent-light);
+}
+
+.intro-chapter {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Profile pages ────────────────────────────────────────────── */
+.book-page--profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-page-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem 0.6rem;
+  background: rgba(108,92,231,0.15);
+  border-bottom-left-radius: var(--radius-xs);
+  border: 1px solid rgba(108,92,231,0.2);
+  border-top: none;
+  border-right: none;
+  z-index: 5;
+}
+
+.page-num-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-accent-light);
+  letter-spacing: 0.05em;
+}
+
+.profile-screenshot-wrap {
+  position: relative;
+  flex-shrink: 0;
+  height: 60%; /* bigger image — was 46% */
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(108,92,231,0.2), rgba(0,206,201,0.12));
+}
+
+.profile-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.book-page--profile:hover .profile-screenshot {
+  transform: scale(1.04);
+}
+
+.profile-screenshot-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(108,92,231,0.25), rgba(253,121,168,0.15));
+}
+
+.profile-screenshot-initial {
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.15);
+}
+
+.profile-screenshot-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #13131e 0%, rgba(19,19,30,0.2) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.profile-type-badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.profile-type-badge--personal {
+  background: rgba(0,206,201,0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(0,206,201,0.25);
+}
+
+.profile-type-badge--template {
+  background: rgba(253,121,168,0.12);
+  color: var(--color-trending);
+  border: 1px solid rgba(253,121,168,0.25);
+}
+
+.profile-info {
+  flex: 1;
+  padding: 0.6rem 0.85rem 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+
+.profile-info-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.profile-avatar-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(108,92,231,0.4);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.profile-info-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-info-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-info-author {
+  font-size: 0.7rem;
+  color: var(--color-accent-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.profile-info-author:hover {
+  color: #fff;
+}
+
+.profile-stats-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.profile-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.67rem;
+}
+
+.chip-icon { font-size: 0.7rem; }
+.chip-val { font-weight: 600; color: var(--color-text); }
+
+.chip-lang-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.profile-description {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.profile-links {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.profile-link-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.profile-link-btn--primary {
+  background: linear-gradient(135deg, var(--color-accent), #5d4cc0);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(108,92,231,0.3);
+}
+
+.profile-link-btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(108,92,231,0.45);
+}
+
+.profile-link-btn--ghost {
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.profile-link-btn--ghost:hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-text);
+  background: rgba(255,255,255,0.07);
+}
+
+/* ── Back cover ───────────────────────────────────────────────── */
+.book-page--back-cover {
+  background: linear-gradient(160deg, #0d1a25 0%, #1a1030 60%, #0f0e1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-cover-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  height: 100%;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.back-cover-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 20px rgba(253,121,168,0.5));
+  animation: float-pulse 3.5s ease-in-out infinite;
+}
+
+.back-cover-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+}
+
+.back-cover-text {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.back-cover-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-trending));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(108,92,231,0.35);
+}
+
+.back-cover-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(108,92,231,0.5);
+}
+
+.back-cover-footer {
+  position: absolute;
+  bottom: 1.25rem;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.06em;
+}
+
+/* ── Book controls bar ────────────────────────────────────────── */
+.book-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 680px;
+}
+
+.book-ctrl-btn {
+  flex-shrink: 0;
+  padding: 0.6rem 1.35rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-ctrl-btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-glow);
+  color: var(--color-accent-light);
+}
+
+.book-ctrl-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.book-progress {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.book-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-trending));
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.book-page-counter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+/* ── Keyboard hint ────────────────────────────────────────────── */
+.book-hint {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.book-hint kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+/* ── Responsive adaptations ───────────────────────────────────── */
+@media (max-width: 600px) {
+  .book-view {
+    padding: 2rem 0.5rem 3rem;
+    gap: 1.25rem;
+  }
+
+  .book-ctrl-btn {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .cover-title { font-size: 1.5rem; }
+  .toc-title { font-size: 1.1rem; }
+}
+

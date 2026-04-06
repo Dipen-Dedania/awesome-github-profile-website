@@ -209,10 +209,6 @@ Repo - https://github.com/Sagargupta16/portfolio-react
 
 Link - https://sagargupta.online/portfolio-react/
 ---
-Repo - https://github.com/anandbaraik/anandfolio
-
-Link - https://anandbaraik-folio.netlify.app/
----
 Repo - https://github.com/beumsk/beumsk.github.io
 
 Link - https://remybeumier.be/

@@ -17,7 +17,8 @@
     "firebase": "^12.11.0",
     "hls.js": "^1.6.15",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-pageflip": "^2.0.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

@@ -6,6 +6,7 @@ import StatsBar from './components/StatsBar.jsx';
 import Filters from './components/Filters.jsx';
 import ProfileCard from './components/ProfileCard.jsx';
 import LandingSection from './components/LandingSection.jsx';
+import ProfileBook from './components/ProfileBook.jsx';
 
 import logo from './assets/logo.png';
 
@@ -175,6 +176,13 @@ export default function App() {
               Templates Gallery
             </a>
             <a
+              className={`nav-link ${currentView === 'book' ? 'active' : ''}`}
+              onClick={() => setCurrentView('book')}
+              id="profile-book-nav"
+            >
+              📖 Profile Book
+            </a>
+            <a
               className="github-link"
               href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
               target="_blank"
@@ -195,6 +203,13 @@ export default function App() {
             userStatsMap={userStatsMap} 
             isHydratingStats={isHydratingStats}
             onBrowseTemplates={() => setCurrentView('templates')}
+          />
+        ) : currentView === 'book' ? (
+          <ProfileBook
+            profiles={profiles}
+            repoStatsMap={repoStatsMap}
+            userStatsMap={userStatsMap}
+            isHydratingStats={isHydratingStats}
           />
         ) : (
           <>

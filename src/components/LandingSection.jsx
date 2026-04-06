@@ -29,7 +29,7 @@ export default function LandingSection({
             loop
             muted
             playsInline
-            src={`${import.meta.env.BASE_URL}hero.mp4`}
+            src={`${import.meta.env.BASE_URL}hero-v2.mp4`}
           />
           <div className="hero-video-overlay" />
         </div>
