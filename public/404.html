@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // GitHub Pages SPA fallback redirect.
+      // pathSegmentsToKeep = 1 because this is a project site:
+      // /awesome-github-profile-website/
+      var pathSegmentsToKeep = 1;
+
+      var locationInfo = window.location;
+      var basePath = locationInfo.pathname
+        .split('/')
+        .slice(0, 1 + pathSegmentsToKeep)
+        .join('/');
+
+      var routePath = locationInfo.pathname
+        .slice(1)
+        .split('/')
+        .slice(pathSegmentsToKeep)
+        .join('/');
+
+      var redirectUrl =
+        locationInfo.protocol +
+        '//' +
+        locationInfo.hostname +
+        (locationInfo.port ? ':' + locationInfo.port : '') +
+        basePath +
+        '/?/' +
+        routePath.replace(/&/g, '~and~') +
+        (locationInfo.search
+          ? '&' + locationInfo.search.slice(1).replace(/&/g, '~and~')
+          : '') +
+        locationInfo.hash;
+
+      window.location.replace(redirectUrl);
+    </script>
+  </head>
+  <body></body>
+</html>

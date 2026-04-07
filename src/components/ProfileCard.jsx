@@ -25,6 +25,40 @@ const LANG_COLORS = {
   MDX: '#fcb32c',
 };
 
+function StarIcon() {
+  return (
+    <svg
+      className="stat-icon"
+      viewBox="0 0 16 16"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        d="M8 .6l2.06 4.17 4.6.67-3.33 3.24.79 4.58L8 11.1l-4.12 2.16.79-4.58L1.34 5.44l4.6-.67L8 .6z"
+      />
+    </svg>
+  );
+}
+
+function ForkIcon() {
+  return (
+    <svg
+      className="stat-icon"
+      viewBox="0 0 16 16"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        d="M5 2.5a2.5 2.5 0 11-1 2v3.2c0 .39.16.76.44 1.04L6.3 10.6c.28.28.44.65.44 1.04V12.5a2.5 2.5 0 11-1 0v-.86a.5.5 0 00-.15-.35L3.73 9.42A2.47 2.47 0 013 7.7V4.5a2.5 2.5 0 012-2zm6 0a2.5 2.5 0 11-1 2v8a2.5 2.5 0 11-1 0v-8a2.5 2.5 0 012-2z"
+      />
+    </svg>
+  );
+}
+
 function timeAgo(dateStr) {
   if (!dateStr) return null;
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -145,13 +179,13 @@ export default function ProfileCard({
           {repoStats ? (
             <>
               <div className="card-stat">
-                <span className="stat-icon">star</span>
+                <StarIcon />
                 <span className="stat-label">
                   {(repoStats.stars || 0).toLocaleString()}
                 </span>
               </div>
               <div className="card-stat">
-                <span className="stat-icon">fork</span>
+                <ForkIcon />
                 <span className="stat-label">
                   {(repoStats.forks || 0).toLocaleString()}
                 </span>
@@ -173,11 +207,11 @@ export default function ProfileCard({
           ) : (
             <>
               <div className="card-stat">
-                <span className="stat-icon">star</span>
+                <StarIcon />
                 <span className="stat-label">0</span>
               </div>
               <div className="card-stat">
-                <span className="stat-icon">fork</span>
+                <ForkIcon />
                 <span className="stat-label">0</span>
               </div>
               <span className="card-updated">Stats unavailable</span>

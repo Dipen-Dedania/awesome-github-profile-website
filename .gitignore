@@ -17,3 +17,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Screenshots
+public/screenshots_backup/*

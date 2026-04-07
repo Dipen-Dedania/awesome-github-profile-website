@@ -12,7 +12,9 @@ We've built a modern, responsive gallery site to showcase these profiles. It fea
 - **Background Sync:** A Node script refreshes Firebase from GitHub on a schedule.
 - **Smart Filtering:** Search by name, author, or language.
 - **Modern UI:** A sleek dark-mode interface with glassmorphism and animations.
-- **Data.md-Driven:** The site automatically syncs with this `data.md` file.
+- **Data Source Split:**
+  - `data.md` is the source for the **profile list** (repo/site links, author, etc.).
+  - Firebase is the source for **live GitHub stats** (stars, forks, followers, updated date).
 
 
 Hey there,
@@ -28,6 +30,48 @@ However only few candidates have a Github page on their resumes and most of them
 
 Here are the list of sample repositories which I came accrossed and found interesting. Order is based on a way I found a repo. Make sure to fork and give it a star to appreciate their efforts. 
 
+## 🤝 Contribution Workflow (Add a New Profile)
+
+Use this standard flow to add your profile to the gallery:
+
+1. **Fork and clone**
+   ```bash
+   git clone https://github.com/<your-username>/awesome-github-profile-website.git
+   cd awesome-github-profile-website
+   npm install
+   ```
+2. **Create a branch**
+   ```bash
+   git checkout -b feat/add-<your-github-username>-profile
+   ```
+3. **Add your profile entry in `data.md`**
+   - Add your entry inside the `<!-- PROFILES-START -->` and `<!-- PROFILES-END -->` block.
+   - Follow the existing entry format exactly (`Repo - ...`, `Link - ...`, separators, etc.).
+4. **Generate derived files**
+   ```bash
+   npm run extract
+   npm run generate:screenshots
+   ```
+5. **Run local verification**
+   ```bash
+   npm run dev
+   npm run build
+   ```
+   Confirm your card appears correctly and links work.
+6. **Commit and push**
+   ```bash
+   git add .
+   git commit -m "Add profile: <your-github-username>"
+   git push origin feat/add-<your-github-username>-profile
+   ```
+7. **Open PR / MR**
+   - Create a Pull Request (or Merge Request) to `master`.
+   - Include:
+     - Your GitHub username
+     - Live site URL
+     - Repo URL
+     - A screenshot (if available)
+   - Keep the PR focused to profile-related changes only.
 
 
 ---
@@ -35,6 +79,12 @@ Here are the list of sample repositories which I came accrossed and found intere
 ## 🛠️ Development & Deployment
 
 This project uses **React + Vite + Tailwind CSS**. The profile data is automatically extracted from the list above.
+
+### How `data.md` and Firebase work together
+1. `data.md` is parsed by `scripts/extract-profiles-from-readme.js` and generates `src/profiles.js`.
+2. The app renders cards from `src/profiles.js` (this is the canonical list of profiles).
+3. At runtime, the app hydrates stats from Firebase cache (with localStorage fallback), not from GitHub API directly in the browser.
+4. `scripts/sync-github-cache.js` updates Firebase with fresh repo/user stats.
 
 ### Local Setup
 1. **Install dependencies:**
