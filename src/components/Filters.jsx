@@ -22,7 +22,7 @@ export default function Filters({
         />
       </div>
 
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <div className="filter-type-group">
         {types.map((t) => (
           <button
             key={t}

@@ -70,7 +70,10 @@ export default function App() {
   const [currentView, setCurrentView] = useState(() =>
     getViewFromPath(window.location.pathname),
   );
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const debounceTimer = useRef(null);
+  const mobileNavRef = useRef(null);
+  const mobileToggleRef = useRef(null);
 
   const navigateToView = useCallback((view, options = {}) => {
     const { replace = false } = options;
@@ -186,6 +189,50 @@ export default function App() {
     };
   }, [navigateToView]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return undefined;
+
+    const onPointerDown = (event) => {
+      const navEl = mobileNavRef.current;
+      const toggleEl = mobileToggleRef.current;
+      const target = event.target;
+
+      if (navEl?.contains(target) || toggleEl?.contains(target)) return;
+      setIsMobileMenuOpen(false);
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.body.classList.add('mobile-menu-open');
+    document.documentElement.classList.add('mobile-menu-open');
+    document.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open');
+      document.documentElement.classList.remove('mobile-menu-open');
+      document.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Filter + sort
   const filteredProfiles = useMemo(() => {
     let result = [...profiles];
@@ -245,7 +292,13 @@ export default function App() {
       {/* Header */}
       <header className="site-header">
         <div className="header-inner">
-          <div className="header-brand" onClick={() => navigateToView('landing')}>
+          <div
+            className="header-brand"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              navigateToView('landing');
+            }}
+          >
             <div className="header-icon">
               <img src={logo} alt="Logo" />
             </div>
@@ -256,12 +309,32 @@ export default function App() {
               </p>
             </div>
           </div>
-          <nav className="nav-links">
+
+          <button
+            type="button"
+            className={`mobile-menu-toggle ${isMobileMenuOpen ? 'is-open' : ''}`}
+            ref={mobileToggleRef}
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="site-navigation"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+
+          <nav
+            className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+            id="site-navigation"
+            ref={mobileNavRef}
+          >
             <a
               className={`nav-link ${currentView === 'templates' ? 'active' : ''}`}
               href={getPathForView('templates')}
               onClick={(event) => {
                 event.preventDefault();
+                setIsMobileMenuOpen(false);
                 navigateToView('templates');
               }}
             >
@@ -272,6 +345,7 @@ export default function App() {
               href={getPathForView('book')}
               onClick={(event) => {
                 event.preventDefault();
+                setIsMobileMenuOpen(false);
                 navigateToView('book');
               }}
               id="profile-book-nav"
@@ -283,6 +357,7 @@ export default function App() {
               href={getPathForView('setup')}
               onClick={(event) => {
                 event.preventDefault();
+                setIsMobileMenuOpen(false);
                 navigateToView('setup');
               }}
             >
@@ -294,11 +369,19 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               id="github-repo-link"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               ⭐ Star on GitHub
             </a>
           </nav>
         </div>
+        <button
+          type="button"
+          className={`mobile-nav-overlay ${isMobileMenuOpen ? 'is-open' : ''}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-hidden={!isMobileMenuOpen}
+          tabIndex={isMobileMenuOpen ? 0 : -1}
+        />
       </header>
 
       <main className="container">

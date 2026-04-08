@@ -44,6 +44,20 @@ body {
   background: var(--color-bg);
 }
 
+body.mobile-menu-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+html.mobile-menu-open {
+  overflow: hidden;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
 /* subtle animated gradient bg */
 body::before {
   content: "";
@@ -226,6 +240,12 @@ body::before {
   color: var(--color-text-muted);
   font-size: 0.85rem;
   pointer-events: none;
+}
+
+.filter-type-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -630,26 +650,182 @@ body::before {
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .header-inner {
-    flex-wrap: wrap;
+  .site-header {
+    padding: 0.75rem 0;
   }
+
+  .header-inner {
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 1rem;
+  }
+
+  .header-brand {
+    gap: 0.6rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .header-icon {
+    width: 32px;
+  }
+
+  .header-title {
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+
   .header-subtitle {
     display: none;
   }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.04);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+    cursor: pointer;
+    z-index: 80;
+  }
+
+  .mobile-menu-toggle span {
+    width: 16px;
+    height: 1.7px;
+    border-radius: 999px;
+    background: var(--color-text);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .mobile-menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .mobile-menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.is-open span:nth-child(3) {
+    transform: translateY(-5.8px) rotate(-45deg);
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(82vw, 320px);
+    height: 100dvh;
+    margin-left: 0;
+    padding: 5.1rem 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(10, 10, 15, 0.96);
+    border-left: 1px solid var(--color-border);
+    transform: translateX(105%);
+    transition: transform 0.24s ease;
+    z-index: 75;
+    overflow-y: auto;
+  }
+
+  .nav-links.mobile-open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-overlay.is-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 70;
+  }
+
+  .nav-link,
+  .github-link {
+    width: 100%;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    text-align: center;
+    justify-content: center;
+    padding: 0.55rem 0.6rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .github-link {
+    margin-left: 0;
+    gap: 0.35rem;
+  }
+
+  .nav-link.active {
+    border-color: var(--color-accent);
+    color: var(--color-accent-light);
+    background: var(--color-accent-glow);
+  }
+
+  .nav-link.active::after {
+    display: none;
+  }
+
   .gallery-grid {
     grid-template-columns: 1fr;
   }
+
   .filters-row {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
   }
+
   .search-wrapper {
-    min-width: 100%;
+    min-width: 0;
+    width: 100%;
   }
+
+  .search-input {
+    min-width: 0;
+  }
+
+  .filter-type-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.45rem;
+  }
+
+  .filter-btn {
+    width: 100%;
+    padding: 0.55rem 0.35rem;
+  }
+
+  .sort-select {
+    width: 100%;
+  }
+
   .stats-bar {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin: 1rem 0 1.1rem;
+  }
+
+  .stat-pill {
+    min-width: 0;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.74rem;
+  }
+
+  .stat-pill:nth-child(n+5) {
+    display: none;
   }
 }
 
@@ -816,6 +992,14 @@ body::before {
   gap: 1.5rem;
   margin-left: 2rem;
   align-items: center;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-nav-overlay {
+  display: none;
 }
 
 .nav-link {
@@ -1977,13 +2161,105 @@ body::before {
 @media (max-width: 768px) {
   .setup-view {
     padding-top: 1.75rem;
+    overflow-x: clip;
   }
 
   .setup-hero {
     padding: 1.3rem;
+    border-radius: 18px;
   }
 
   .setup-grid {
     grid-template-columns: 1fr;
+  }
+
+  .setup-hero,
+  .setup-card,
+  .setup-reference {
+    min-width: 0;
+  }
+
+  .setup-actions {
+    gap: 0.65rem;
+  }
+
+  .setup-actions .btn-primary,
+  .setup-secondary-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.72rem 1rem;
+    font-size: 0.84rem;
+    line-height: 1.35;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .setup-card {
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .setup-card-title {
+    font-size: 1.02rem;
+    line-height: 1.35;
+  }
+
+  .setup-card-body {
+    font-size: 0.85rem;
+  }
+
+  .setup-card-detail {
+    font-size: 0.78rem;
+  }
+
+  .setup-code-block {
+    max-width: 100%;
+    font-size: 0.74rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+/* Keep mobile header drawer rules at end to avoid cascade regressions */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  .mobile-nav-overlay {
+    display: none;
+  }
+
+  .mobile-nav-overlay.is-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 70;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(82vw, 320px);
+    height: 100dvh;
+    margin-left: 0;
+    padding: 5.1rem 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(10, 10, 15, 0.96);
+    border-left: 1px solid var(--color-border);
+    transform: translateX(105%);
+    transition: transform 0.24s ease;
+    z-index: 75;
+    overflow-y: auto;
+  }
+
+  .nav-links.mobile-open {
+    transform: translateX(0);
   }
 }
