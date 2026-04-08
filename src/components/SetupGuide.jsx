@@ -1,3 +1,5 @@
+import FaqSection from './FaqSection.jsx';
+
 const OFFICIAL_DOC_URL =
   'https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site';
 
@@ -42,6 +44,24 @@ git push origin main`,
       'In your repository Settings, open Pages and configure a publishing source. You can deploy from a branch/folder or from a GitHub Actions workflow.',
     detail:
       'GitHub Pages needs an entry file at the source root: index.html, index.md, or README.md. Initial publish can take up to about 10 minutes.',
+  },
+];
+
+const SETUP_FAQ_ITEMS = [
+  {
+    question: 'What is the minimum required file for GitHub Pages?',
+    answer:
+      'Your publishing source should include an entry file such as index.html, index.md, or README.md at the configured root.',
+  },
+  {
+    question: 'Can I deploy from a subfolder in a repository?',
+    answer:
+      'Yes. GitHub Pages supports publishing from a branch and folder, or from a GitHub Actions workflow for custom build outputs.',
+  },
+  {
+    question: 'How do I force HTTPS for my custom domain?',
+    answer:
+      'After DNS is configured correctly, enable the HTTPS option in GitHub Pages settings to serve your site securely.',
   },
 ];
 
@@ -106,6 +126,8 @@ export default function SetupGuide({ onBrowseTemplates }) {
           </article>
         ))}
       </div>
+
+      <FaqSection title="GitHub Pages Setup FAQs" items={SETUP_FAQ_ITEMS} />
     </section>
   );
 }

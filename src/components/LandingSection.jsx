@@ -1,6 +1,25 @@
 import React, { useMemo } from 'react';
 import ProfileCard from './ProfileCard.jsx';
 import ScreenshotGallery from './ScreenshotGallery.jsx';
+import FaqSection from './FaqSection.jsx';
+
+const LANDING_FAQ_ITEMS = [
+  {
+    question: 'Why should developers build a GitHub profile website?',
+    answer:
+      'A GitHub profile website gives you a public portfolio that shows projects, code quality, and personality beyond a static resume.',
+  },
+  {
+    question: 'Can beginners use these portfolio examples?',
+    answer:
+      'Yes. Many examples are beginner-friendly and can be customized quickly with your own bio, projects, and links.',
+  },
+  {
+    question: 'What should a strong portfolio homepage include?',
+    answer:
+      'Start with a clear introduction, top projects, tech stack, and direct links to contact, GitHub, and live demos.',
+  },
+];
 
 export default function LandingSection({
   profiles,
@@ -75,6 +94,8 @@ export default function LandingSection({
           ))}
         </div>
       </section>
+
+      <FaqSection title="Portfolio Website FAQs" items={LANDING_FAQ_ITEMS} />
     </div>
   );
 }

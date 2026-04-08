@@ -8,6 +8,7 @@ import ProfileCard from './components/ProfileCard.jsx';
 import LandingSection from './components/LandingSection.jsx';
 import ProfileBook from './components/ProfileBook.jsx';
 import SetupGuide from './components/SetupGuide.jsx';
+import FaqSection from './components/FaqSection.jsx';
 
 import logo from './assets/logo.png';
 
@@ -17,7 +18,109 @@ const VIEW_PATHS = {
   book: '/profile-book',
   setup: '/github-pages-setup',
 };
+const SITE_ORIGIN = (
+  import.meta.env.VITE_SITE_URL || 'https://dipen-dedania.github.io'
+).replace(/\/+$/, '');
 const APP_BASE_PATH = normalizePath(import.meta.env.BASE_URL || '/');
+const SITE_NAME = 'Awesome GitHub Websites';
+const SOCIAL_IMAGE_URL = getAssetUrl('/screenshots/aarshap.png');
+
+const VIEW_SEO = {
+  landing: {
+    title:
+      'Awesome GitHub Websites | Curated GitHub Profile & Portfolio Inspiration',
+    description:
+      'Discover hand-picked GitHub-hosted profile websites and portfolio inspiration. Explore standout examples, source links, and design ideas.',
+    type: 'WebPage',
+    faq: [
+      {
+        question: 'What is the fastest way to create a GitHub profile website?',
+        answer:
+          'Pick a template, customize your content, and publish it through GitHub Pages. Most developers can launch a first version in under a day.',
+      },
+      {
+        question: 'Are these examples free to use?',
+        answer:
+          'Many projects are open source. Always review each repository license before reusing code, design assets, or branding.',
+      },
+      {
+        question: 'Do I need React or a framework to launch on GitHub Pages?',
+        answer:
+          'No. You can deploy plain HTML/CSS/JS or any static output from frameworks like React, Next.js static export, Astro, and Vue.',
+      },
+    ],
+  },
+  templates: {
+    title: 'GitHub Profile Website Templates | Awesome GitHub Websites',
+    description:
+      'Browse a curated templates gallery for GitHub profile websites. Filter by style, stack, and popularity to find the best starter for your portfolio.',
+    type: 'CollectionPage',
+    faq: [
+      {
+        question: 'How do I choose the right template?',
+        answer:
+          'Choose a template that matches your content volume, preferred tech stack, and maintenance effort. Start simple and iterate after launch.',
+      },
+      {
+        question: 'Can I deploy template forks directly on GitHub Pages?',
+        answer:
+          'Yes. Fork or clone the template repository, update content, push your changes, and enable GitHub Pages from repository settings.',
+      },
+      {
+        question: 'What should I customize first in a portfolio template?',
+        answer:
+          'Start with your bio, project highlights, social links, and personal branding such as colors, avatar, and contact details.',
+      },
+    ],
+  },
+  book: {
+    title: 'Profile Book | Awesome GitHub Websites',
+    description:
+      'Flip through a visual book of curated GitHub profile websites and developer portfolios to discover modern design patterns and ideas.',
+    type: 'WebPage',
+  },
+  setup: {
+    title: 'How to Set Up GitHub Pages for Your Portfolio | Awesome GitHub Websites',
+    description:
+      'Step-by-step guide to launch your GitHub profile website on GitHub Pages, from choosing a template to publishing and sharing your live site.',
+    type: 'HowTo',
+    faq: [
+      {
+        question: 'How long does GitHub Pages take to publish changes?',
+        answer:
+          'Most deployments are available within a few minutes, though first-time setup can occasionally take up to around 10 minutes.',
+      },
+      {
+        question: 'Can I use a custom domain with GitHub Pages?',
+        answer:
+          'Yes. You can point your domain DNS to GitHub Pages and configure HTTPS support from repository settings.',
+      },
+      {
+        question: 'Do I need GitHub Actions for deployment?',
+        answer:
+          'Not always. You can publish from a branch and folder directly, or use GitHub Actions when your template needs a build step.',
+      },
+    ],
+  },
+};
+
+const TEMPLATES_FAQ_ITEMS = [
+  {
+    question: 'How many templates should I test before choosing one?',
+    answer:
+      'Shortlist 2 to 3 strong options, run each locally, and choose the one that lets you publish fastest with your current content.',
+  },
+  {
+    question: 'What matters more for hiring outcomes: design or content?',
+    answer:
+      'Content clarity usually wins. Use a clean design, but focus on project outcomes, technical decisions, and links to live demos.',
+  },
+  {
+    question: 'Should my template include a blog section from day one?',
+    answer:
+      'Only if you can maintain it. A polished portfolio with strong projects is better than an empty blog.',
+  },
+];
 
 function normalizePath(pathname) {
   if (!pathname) return '/';
@@ -51,6 +154,110 @@ function getPathForView(view) {
   if (APP_BASE_PATH === '/') return routePath;
   if (routePath === '/') return APP_BASE_PATH;
   return `${APP_BASE_PATH}${routePath}`;
+}
+
+function getAssetUrl(assetPath) {
+  const normalizedAssetPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
+  if (APP_BASE_PATH === '/') {
+    return `${SITE_ORIGIN}${normalizedAssetPath}`;
+  }
+  return `${SITE_ORIGIN}${APP_BASE_PATH}${normalizedAssetPath}`;
+}
+
+function getAbsoluteUrlForView(view) {
+  return `${SITE_ORIGIN}${getPathForView(view)}`;
+}
+
+function setMetaTag(attr, key, content) {
+  let tag = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attr, key);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('content', content);
+}
+
+function setCanonicalLink(href) {
+  let link = document.head.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
+function setJsonLd(objects) {
+  let scriptTag = document.head.querySelector('script#seo-jsonld');
+  if (!scriptTag) {
+    scriptTag = document.createElement('script');
+    scriptTag.setAttribute('id', 'seo-jsonld');
+    scriptTag.setAttribute('type', 'application/ld+json');
+    document.head.appendChild(scriptTag);
+  }
+  scriptTag.textContent = JSON.stringify(objects);
+}
+
+function buildSeoJsonLd(view, seo) {
+  const canonicalUrl = getAbsoluteUrlForView(view);
+  const homeUrl = getAbsoluteUrlForView('landing');
+  const breadcrumbItems = [
+    { position: 1, name: 'Home', item: homeUrl },
+  ];
+
+  if (view !== 'landing') {
+    breadcrumbItems.push({ position: 2, name: seo.title, item: canonicalUrl });
+  }
+
+  const objects = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${homeUrl}#website`,
+      name: SITE_NAME,
+      url: homeUrl,
+      inLanguage: 'en',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': seo.type,
+      '@id': `${canonicalUrl}#webpage`,
+      name: seo.title,
+      description: seo.description,
+      url: canonicalUrl,
+      isPartOf: {
+        '@id': `${homeUrl}#website`,
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item) => ({
+        '@type': 'ListItem',
+        position: item.position,
+        name: item.name,
+        item: item.item,
+      })),
+    },
+  ];
+
+  if (seo.faq?.length) {
+    objects.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: seo.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    });
+  }
+
+  return objects;
 }
 
 export default function App() {
@@ -207,6 +414,9 @@ export default function App() {
       }
     };
 
+    if (mobileNavRef.current) {
+      mobileNavRef.current.scrollTop = 0;
+    }
     document.body.classList.add('mobile-menu-open');
     document.documentElement.classList.add('mobile-menu-open');
     document.addEventListener('pointerdown', onPointerDown);
@@ -232,6 +442,30 @@ export default function App() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const seo = VIEW_SEO[currentView] || VIEW_SEO.landing;
+    const canonicalUrl = getAbsoluteUrlForView(currentView);
+
+    document.title = seo.title;
+    setCanonicalLink(canonicalUrl);
+    setMetaTag('name', 'description', seo.description);
+    setMetaTag('name', 'robots', 'index,follow');
+
+    setMetaTag('property', 'og:site_name', SITE_NAME);
+    setMetaTag('property', 'og:title', seo.title);
+    setMetaTag('property', 'og:description', seo.description);
+    setMetaTag('property', 'og:type', 'website');
+    setMetaTag('property', 'og:url', canonicalUrl);
+    setMetaTag('property', 'og:image', SOCIAL_IMAGE_URL);
+
+    setMetaTag('name', 'twitter:card', 'summary_large_image');
+    setMetaTag('name', 'twitter:title', seo.title);
+    setMetaTag('name', 'twitter:description', seo.description);
+    setMetaTag('name', 'twitter:image', SOCIAL_IMAGE_URL);
+
+    setJsonLd(buildSeoJsonLd(currentView, seo));
+  }, [currentView]);
 
   // Filter + sort
   const filteredProfiles = useMemo(() => {
@@ -446,6 +680,10 @@ export default function App() {
                 ))
               )}
             </div>
+            <FaqSection
+              title="Templates Gallery FAQs"
+              items={TEMPLATES_FAQ_ITEMS}
+            />
           </>
         )}
       </main>

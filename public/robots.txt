@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dipen-dedania.github.io/awesome-github-profile-website/sitemap.xml
