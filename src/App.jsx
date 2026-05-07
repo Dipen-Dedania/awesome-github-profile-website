@@ -9,6 +9,7 @@ import LandingSection from './components/LandingSection.jsx';
 import ProfileBook from './components/ProfileBook.jsx';
 import SetupGuide from './components/SetupGuide.jsx';
 import FaqSection from './components/FaqSection.jsx';
+import SwipeView from './components/SwipeView.jsx';
 
 import logo from './assets/logo.png';
 
@@ -16,6 +17,7 @@ const VIEW_PATHS = {
   landing: '/',
   templates: '/templates',
   book: '/profile-book',
+  swipe: '/swipe',
   setup: '/github-pages-setup',
 };
 const SITE_ORIGIN = (
@@ -79,6 +81,12 @@ const VIEW_SEO = {
       'Flip through a visual book of curated GitHub profile websites and developer portfolios to discover modern design patterns and ideas.',
     type: 'WebPage',
   },
+  swipe: {
+    title: 'Swipe GitHub Portfolio Websites | Awesome GitHub Websites',
+    description:
+      'Browse curated GitHub portfolio websites in a Tinder-style card deck. Like favorites, skip others, and save portfolio inspiration locally.',
+    type: 'CollectionPage',
+  },
   setup: {
     title: 'How to Set Up GitHub Pages for Your Portfolio | Awesome GitHub Websites',
     description:
@@ -135,6 +143,7 @@ function getViewFromPath(pathname) {
   const routePath = stripBasePath(normalizedPath);
 
   if (routePath === VIEW_PATHS.book) return 'book';
+  if (routePath === VIEW_PATHS.swipe) return 'swipe';
   if (routePath === VIEW_PATHS.setup) return 'setup';
   if (routePath === VIEW_PATHS.templates) return 'templates';
   return 'landing';
@@ -381,6 +390,7 @@ export default function App() {
       normalizedPath !== getPathForView('landing') &&
       normalizedPath !== getPathForView('templates') &&
       normalizedPath !== getPathForView('book') &&
+      normalizedPath !== getPathForView('swipe') &&
       normalizedPath !== getPathForView('setup')
     ) {
       navigateToView('landing', { replace: true });
@@ -587,6 +597,17 @@ export default function App() {
               Profile Book
             </a>
             <a
+              className={`nav-link ${currentView === 'swipe' ? 'active' : ''}`}
+              href={getPathForView('swipe')}
+              onClick={(event) => {
+                event.preventDefault();
+                setIsMobileMenuOpen(false);
+                navigateToView('swipe');
+              }}
+            >
+              Swipe
+            </a>
+            <a
               className={`nav-link ${currentView === 'setup' ? 'active' : ''}`}
               href={getPathForView('setup')}
               onClick={(event) => {
@@ -633,6 +654,12 @@ export default function App() {
             repoStatsMap={repoStatsMap}
             userStatsMap={userStatsMap}
             isHydratingStats={isHydratingStats}
+          />
+        ) : currentView === 'swipe' ? (
+          <SwipeView
+            profiles={profiles}
+            repoStatsMap={repoStatsMap}
+            userStatsMap={userStatsMap}
           />
         ) : currentView === 'setup' ? (
           <SetupGuide onBrowseTemplates={() => navigateToView('templates')} />

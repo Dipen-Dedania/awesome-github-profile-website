@@ -2335,3 +2335,735 @@ body::before {
     margin-bottom: 2.5rem;
   }
 }
+
+/* Swipe view */
+.swipe-view {
+  padding: 2.5rem 0 4rem;
+}
+
+.swipe-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.swipe-title {
+  margin-top: 0.9rem;
+  max-width: 760px;
+  color: #fff;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.swipe-subtitle {
+  margin-top: 0.85rem;
+  max-width: 720px;
+  color: var(--color-text-muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.swipe-finish-btn {
+  position: sticky;
+  top: 6rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(108, 92, 231, 0.45);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.92), rgba(253, 121, 168, 0.82));
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-sans);
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.swipe-finish-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(108, 92, 231, 0.3);
+}
+
+.swipe-finish-btn span {
+  display: grid;
+  place-items: center;
+  min-width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 0.82rem;
+}
+
+.swipe-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.swipe-deck-shell {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.swipe-deck {
+  position: relative;
+  width: min(100%, 430px);
+  height: 620px;
+  touch-action: none;
+}
+
+.swipe-card-layer {
+  position: absolute;
+  inset: 0;
+  transform-origin: center bottom;
+  transition: transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.24s ease;
+}
+
+.swipe-card-layer--0 {
+  z-index: 3;
+}
+
+.swipe-card-layer--1 {
+  z-index: 2;
+  transform: translateY(18px) scale(0.955);
+  opacity: 0.72;
+}
+
+.swipe-card-layer--2 {
+  z-index: 1;
+  transform: translateY(34px) scale(0.91);
+  opacity: 0.42;
+}
+
+.swipe-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    var(--color-surface);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.34);
+  user-select: none;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease;
+}
+
+.swipe-card--active {
+  cursor: grab;
+}
+
+.swipe-card--active:active {
+  cursor: grabbing;
+}
+
+.swipe-card--exit-like,
+.swipe-card--exit-skip {
+  pointer-events: none;
+}
+
+.swipe-card-drag-area {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.swipe-card-cover {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.18), rgba(0, 206, 201, 0.12));
+}
+
+.swipe-card-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transform: scale(1.01);
+}
+
+.swipe-card-cover-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 7rem;
+  font-weight: 900;
+}
+
+.swipe-card-cover-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 15, 0.48) 0%, transparent 24%),
+    linear-gradient(0deg, rgba(10, 10, 15, 0.72) 0%, transparent 38%);
+  pointer-events: none;
+}
+
+.swipe-card-topline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  z-index: 2;
+}
+
+.swipe-author {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.78rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.swipe-avatar {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+  background: var(--color-surface-hover);
+}
+
+.swipe-card-body {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.95rem 1rem 0.15rem;
+  text-align: left;
+}
+
+.swipe-card-title {
+  color: #fff;
+  font-size: 1.18rem;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.swipe-card-description {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.swipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.45rem;
+}
+
+.swipe-tag {
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-accent-light);
+  padding: 0.28rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.swipe-card-actions {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem 1rem;
+  background: var(--color-surface);
+}
+
+.swipe-round-btn,
+.swipe-visit-btn,
+.liked-clear-btn,
+.liked-close-btn,
+.liked-remove-btn {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.swipe-round-btn {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.swipe-round-btn:hover,
+.swipe-visit-btn:hover,
+.liked-clear-btn:hover,
+.liked-close-btn:hover,
+.liked-remove-btn:hover {
+  transform: translateY(-2px);
+}
+
+.swipe-round-btn--skip {
+  color: #ff6b81;
+  border-color: rgba(255, 107, 129, 0.3);
+}
+
+.swipe-round-btn--like {
+  color: #55efc4;
+  border-color: rgba(85, 239, 196, 0.32);
+}
+
+.swipe-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border: 1px solid rgba(108, 92, 231, 0.42);
+  border-radius: var(--radius-xs);
+  background: var(--color-accent-glow);
+  color: var(--color-accent-light);
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.swipe-feedback {
+  position: absolute;
+  top: 5.5rem;
+  z-index: 5;
+  border: 4px solid currentColor;
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.8rem;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+}
+
+.swipe-feedback--like {
+  left: 1.25rem;
+  color: #55efc4;
+  transform: rotate(-14deg);
+}
+
+.swipe-feedback--skip {
+  right: 1.25rem;
+  color: #ff6b81;
+  transform: rotate(14deg);
+}
+
+.swipe-keyboard-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.swipe-keyboard-hint kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.85rem;
+  min-height: 1.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.swipe-side-panel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.swipe-side-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.swipe-side-stat strong {
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.swipe-side-stat span,
+.swipe-side-panel p {
+  color: var(--color-text-muted);
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
+.swipe-side-panel p {
+  margin-top: 0.85rem;
+}
+
+.swipe-side-panel code {
+  color: var(--color-accent-light);
+}
+
+.swipe-empty-deck {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.8rem;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  padding: 2rem;
+  text-align: center;
+}
+
+.swipe-empty-mark {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: rgba(85, 239, 196, 0.12);
+  color: #55efc4;
+  font-size: 2rem;
+}
+
+.swipe-empty-deck h2 {
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.swipe-empty-deck p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.liked-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(12px);
+}
+
+.liked-panel {
+  width: min(1040px, 100%);
+  max-height: min(84vh, 820px);
+  overflow: auto;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius);
+  background: rgba(18, 18, 26, 0.98);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
+  padding: 1.2rem;
+}
+
+.liked-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.liked-panel-header h2 {
+  margin-top: 0.55rem;
+  color: #fff;
+  font-size: 1.55rem;
+  letter-spacing: -0.02em;
+}
+
+.liked-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.liked-clear-btn,
+.liked-close-btn,
+.liked-remove-btn {
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+}
+
+.liked-clear-btn {
+  border-radius: var(--radius-xs);
+  padding: 0.55rem 0.85rem;
+  font-weight: 650;
+}
+
+.liked-close-btn,
+.liked-remove-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+.liked-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.liked-card {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0;
+  text-align: left;
+}
+
+.liked-remove-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 4;
+  width: 30px;
+  height: 30px;
+  color: #ff6b81;
+  background: rgba(18, 18, 26, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+.liked-card-preview {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.18), rgba(0, 206, 201, 0.12));
+}
+
+.liked-screenshot {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.liked-screenshot-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.liked-card-preview-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(10, 10, 15, 0.64), transparent 46%);
+  pointer-events: none;
+}
+
+.liked-avatar {
+  position: absolute;
+  left: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34);
+}
+
+.liked-card-info {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0 0.9rem;
+}
+
+.liked-card h3 {
+  max-width: 100%;
+  color: #fff;
+  font-size: 0.98rem;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+.liked-card p {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.liked-card .swipe-visit-btn {
+  width: calc(100% - 1.8rem);
+  min-height: 38px;
+  margin: 0 0.9rem 0.9rem;
+}
+
+.liked-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.liked-empty-state h3 {
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.liked-empty-state p {
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swipe-card,
+  .swipe-card-layer,
+  .swipe-finish-btn,
+  .swipe-round-btn,
+  .swipe-visit-btn {
+    transition: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .swipe-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .swipe-side-panel {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+  }
+
+  .swipe-side-panel p {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .swipe-view {
+    padding-top: 1.75rem;
+  }
+
+  .swipe-hero {
+    flex-direction: column;
+  }
+
+  .swipe-finish-btn {
+    top: auto;
+    bottom: 1rem;
+    align-self: stretch;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .swipe-deck {
+    width: min(100%, 380px);
+    height: 560px;
+  }
+
+  .swipe-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .swipe-card-title {
+    font-size: 1.05rem;
+  }
+
+  .swipe-card-description {
+    font-size: 0.78rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .swipe-card-actions {
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    gap: 0.55rem;
+    padding: 1rem;
+  }
+
+  .swipe-round-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .swipe-feedback {
+    top: 4.8rem;
+    font-size: 1.55rem;
+  }
+
+  .liked-panel {
+    max-height: 88vh;
+    padding: 1rem;
+  }
+
+  .liked-panel-header {
+    flex-direction: column;
+  }
+
+  .liked-panel-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
