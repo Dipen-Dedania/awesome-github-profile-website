@@ -88,7 +88,8 @@ const VIEW_SEO = {
     type: 'CollectionPage',
   },
   setup: {
-    title: 'How to Set Up GitHub Pages for Your Portfolio | Awesome GitHub Websites',
+    title:
+      'How to Set Up GitHub Pages for Your Portfolio | Awesome GitHub Websites',
     description:
       'Step-by-step guide to launch your GitHub profile website on GitHub Pages, from choosing a template to publishing and sharing your live site.',
     type: 'HowTo',
@@ -166,7 +167,9 @@ function getPathForView(view) {
 }
 
 function getAssetUrl(assetPath) {
-  const normalizedAssetPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
+  const normalizedAssetPath = assetPath.startsWith('/')
+    ? assetPath
+    : `/${assetPath}`;
   if (APP_BASE_PATH === '/') {
     return `${SITE_ORIGIN}${normalizedAssetPath}`;
   }
@@ -211,9 +214,7 @@ function setJsonLd(objects) {
 function buildSeoJsonLd(view, seo) {
   const canonicalUrl = getAbsoluteUrlForView(view);
   const homeUrl = getAbsoluteUrlForView('landing');
-  const breadcrumbItems = [
-    { position: 1, name: 'Home', item: homeUrl },
-  ];
+  const breadcrumbItems = [{ position: 1, name: 'Home', item: homeUrl }];
 
   if (view !== 'landing') {
     breadcrumbItems.push({ position: 2, name: seo.title, item: canonicalUrl });
@@ -534,34 +535,34 @@ export default function App() {
   return (
     <>
       {/* Header */}
-      <header className="site-header">
-        <div className="header-inner">
+      <header className='site-header'>
+        <div className='header-inner'>
           <div
-            className="header-brand"
+            className='header-brand'
             onClick={() => {
               setIsMobileMenuOpen(false);
               navigateToView('landing');
             }}
           >
-            <div className="header-icon">
-              <img src={logo} alt="Logo" />
+            <div className='header-icon'>
+              <img src={logo} alt='Logo' />
             </div>
             <div>
-              <h1 className="header-title">Awesome GitHub Websites</h1>
-              <p className="header-subtitle">
+              <h1 className='header-title'>Awesome GitHub Websites</h1>
+              <p className='header-subtitle'>
                 Curated gallery of GitHub-hosted profile sites &amp; templates
               </p>
             </div>
           </div>
 
           <button
-            type="button"
+            type='button'
             className={`mobile-menu-toggle ${isMobileMenuOpen ? 'is-open' : ''}`}
             ref={mobileToggleRef}
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
-            aria-controls="site-navigation"
+            aria-controls='site-navigation'
           >
             <span />
             <span />
@@ -570,7 +571,7 @@ export default function App() {
 
           <nav
             className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}
-            id="site-navigation"
+            id='site-navigation'
             ref={mobileNavRef}
           >
             <a
@@ -592,7 +593,7 @@ export default function App() {
                 setIsMobileMenuOpen(false);
                 navigateToView('book');
               }}
-              id="profile-book-nav"
+              id='profile-book-nav'
             >
               Profile Book
             </a>
@@ -619,11 +620,11 @@ export default function App() {
               Setup GitHub Pages
             </a>
             <a
-              className="github-link"
-              href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="github-repo-link"
+              className='github-link'
+              href='https://github.com/Dipen-Dedania/awesome-github-profile-website'
+              target='_blank'
+              rel='noopener noreferrer'
+              id='github-repo-link'
               onClick={() => setIsMobileMenuOpen(false)}
             >
               ⭐ Star on GitHub
@@ -631,7 +632,7 @@ export default function App() {
           </nav>
         </div>
         <button
-          type="button"
+          type='button'
           className={`mobile-nav-overlay ${isMobileMenuOpen ? 'is-open' : ''}`}
           onClick={() => setIsMobileMenuOpen(false)}
           aria-hidden={!isMobileMenuOpen}
@@ -639,7 +640,7 @@ export default function App() {
         />
       </header>
 
-      <main className="container">
+      <main className='container'>
         {currentView === 'landing' ? (
           <LandingSection
             profiles={profiles}
@@ -683,12 +684,12 @@ export default function App() {
             />
 
             {/* Gallery */}
-            <div className="gallery-grid" id="gallery">
+            <div className='gallery-grid' id='gallery'>
               {filteredProfiles.length === 0 ? (
-                <div className="empty-state">
-                  <div className="empty-state-icon">🔎</div>
-                  <div className="empty-state-title">No profiles found</div>
-                  <div className="empty-state-text">
+                <div className='empty-state'>
+                  <div className='empty-state-icon'>🔎</div>
+                  <div className='empty-state-title'>No profiles found</div>
+                  <div className='empty-state-text'>
                     Try adjusting your search or filters.
                   </div>
                 </div>
@@ -708,28 +709,52 @@ export default function App() {
               )}
             </div>
             <FaqSection
-              title="Templates Gallery FAQs"
+              title='Templates Gallery FAQs'
               items={TEMPLATES_FAQ_ITEMS}
             />
           </>
         )}
       </main>
 
+      <div className='flex-center'>
+        <a href='https://tools.cafe' target='_blank' rel='noopener'>
+          <img
+            src='https://tools.cafe/b/light.svg'
+            alt='Featured on tools.cafe'
+            width='256'
+            height='80'
+          />
+        </a>
+
+        <a
+          href='https://www.producthunt.com/products/github-profiles/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-github&#0045;profiles'
+          target='_blank'
+        >
+          <img
+            src='https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1248872&theme=light'
+            alt='Github&#0032;Profiles - Your&#0032;GitHub&#0032;Profile&#0032;is&#0032;your&#0032;New&#0032;Resume&#0044;&#0032;showcase&#0032;differently | Product Hunt'
+            style={{ width: '250px', height: '54px' }}
+            width='250'
+            height='54'
+          />
+        </a>
+      </div>
+
       {/* Footer */}
-      <footer className="site-footer">
+      <footer className='site-footer'>
         Made with ❤️ by{' '}
         <a
-          href="https://github.com/Dipen-Dedania"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://github.com/Dipen-Dedania'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           Dipen Dedania
         </a>{' '}
         · Data sourced from data.md ·{' '}
         <a
-          href="https://github.com/Dipen-Dedania/awesome-github-profile-website"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://github.com/Dipen-Dedania/awesome-github-profile-website'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           Contribute
         </a>

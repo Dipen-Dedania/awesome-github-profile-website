@@ -1,0 +1,24 @@
+# Awesome GitHub Websites
+
+> A curated gallery of 148+ GitHub-hosted profile websites, developer portfolios, and portfolio templates. Every entry includes a live demo link, source repository, screenshot, and GitHub stats — helping developers find inspiration and templates to launch their own portfolio on GitHub Pages.
+
+The site is a free, open-source resource maintained by Dipen Dedania. All listed projects link back to their original repositories; licenses vary per project and should be checked before reuse.
+
+## Pages
+
+- [Home](https://dipen-dedania.github.io/awesome-github-profile-website/): Landing page with the full curated gallery of GitHub profile websites, filterable by type, stack, and popularity.
+- [Templates](https://dipen-dedania.github.io/awesome-github-profile-website/templates): Reusable portfolio templates you can fork and deploy directly to GitHub Pages.
+- [Profile Book](https://dipen-dedania.github.io/awesome-github-profile-website/profile-book): A flip-book style visual browser of curated portfolio screenshots.
+- [Swipe](https://dipen-dedania.github.io/awesome-github-profile-website/swipe): Tinder-style card deck for quickly browsing and saving favorite portfolios.
+- [GitHub Pages Setup Guide](https://dipen-dedania.github.io/awesome-github-profile-website/github-pages-setup): Step-by-step guide to publishing a portfolio website on GitHub Pages, from choosing a template to going live.
+
+## Key facts
+
+- Fastest way to create a GitHub profile website: pick a template, customize content, and publish through GitHub Pages — usually doable in under a day.
+- No framework is required for GitHub Pages: plain HTML/CSS/JS works, as does static output from React, Next.js, Astro, or Vue.
+- GitHub Pages supports custom domains with HTTPS, configured via DNS and repository settings.
+- Most GitHub Pages deployments publish within a few minutes; first-time setup can take up to ~10 minutes.
+
+## Source
+
+- [GitHub repository](https://github.com/dipen-dedania/awesome-github-profile-website): Source code and profile data for this site. Contributions (new profile submissions) are welcome via pull request.
